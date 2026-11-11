@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminar tarea - TaskFlow</title>
+</head>
+<body>
+    <h1>Eliminar tarea</h1>
+
+    <p>¿Estás seguro de que quieres eliminar "{{ object.title }}"?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirmar eliminación</button>
+    </form>
+
+    <a href="{% url 'board_list' %}">Cancelar</a>
+</body>
+</html>

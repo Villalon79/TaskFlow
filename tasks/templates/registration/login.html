@@ -1,0 +1,13 @@
+<h1>Iniciar sesión en TaskFlow</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Entrar</button>
+</form>
+
+<p>¿No tienes cuenta?</p>
+
+<a href="{% url 'signup' %}">Crear una cuenta</a>

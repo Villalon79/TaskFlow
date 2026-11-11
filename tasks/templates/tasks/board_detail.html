@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ board.name }} - TaskFlow</title>
+</head>
+<body>
+
+    <form style="display: none;">
+    {% csrf_token %}
+    </form>
+
+
+    <h1>{{ board.name }}</h1>
+
+    <a href="{% url 'export_tasks_csv' board.pk %}">
+    Exportar tareas a CSV
+   </a>
+
+   <a href="{% url 'export_tasks_json' board.pk %}">
+    Exportar tareas a JSON
+   </a>
+
+    <p>{{ board.description }}</p>
+
+    <h2>Listas</h2>
+
+  {% for tasklist in tasklists %}
+    <div class="task-list" data-list-id="{{ tasklist.pk }}">
+        <h3>{{ tasklist.name }}</h3>
+
+        <a href="{% url 'task_create' tasklist.pk %}">Crear tarea</a>
+
+        {% for task in tasklist.tasks.all %}
+         <div class="task" draggable="true" data-task-id="{{ task.pk }}">
+        <h4>{{ task.title }}</h4>
+
+                <a href="{% url 'task_update' task.pk %}">Editar</a>
+                <a href="{% url 'task_delete' task.pk %}">Eliminar</a>
+
+                <p>{{ task.description }}</p>
+                <p>Prioridad: {{ task.get_priority_display }}</p>
+                <p>Asignada a: {{ task.assigned_to|default:"Sin asignar" }}</p>
+                <p>Fecha de vencimiento: {{ task.due_date|default:"Sin fecha" }}</p>
+            </div>
+
+        {% empty %}
+          <p class="empty-message">No hay tareas en esta lista.</p>
+        {% endfor %}
+
+    </div>
+{% empty %}
+    <p>Este tablero todavía no tiene listas.</p>
+{% endfor %}
+
+    <a href="{% url 'board_list' %}">Volver a mis tableros</a>
+
+<script src="{% static 'tasks/drag_drop.js' %}"></script>
+
+</body>
+</html>

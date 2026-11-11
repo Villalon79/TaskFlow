@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>TaskFlow - Mis tableros</title>
+</head>
+<body>
+
+    <h1>Bienvenido a TaskFlow</h1>
+
+    <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Cerrar sesión</button>
+   </form>
+
+    <h2>Mis tableros</h2>
+
+    {% for board in boards %}
+
+        <div>
+            <h3>{{ board.name }}</h3>
+            <p>{{ board.description }}</p>
+            <a href="{% url 'board_detail' board.pk %}">Abrir tablero</a>
+            <a href="{% url 'board_update' board.pk %}">Editar</a>
+            <a href="{% url 'board_delete' board.pk %}">Eliminar</a>
+        </div>
+       
+    {% empty %}
+
+        <p>Todavía no tienes tableros.</p>
+
+    {% endfor %}
+
+     <div>
+        <a href="{% url 'board_create' %}">Crear nuevo tablero</a>
+    </div>
+
+</body>
+</html>
